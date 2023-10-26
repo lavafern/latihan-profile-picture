@@ -133,22 +133,15 @@ module.exports = {
 
             if (!idCheck) throw new Error("Id not found",{cause : 400})
 
-            const updatedProfile = await prisma.userProfile.upsert({
+            const updatedProfile = await prisma.userProfile.update({
                 where : {
                     userid : id
                 },
-                update : {
+                data : {
                     first_name : first_name,
                     last_name : last_name,
                     birth_date : birth_date,
                     profile_picture : url,
-                },
-                create : {
-                    first_name : first_name,
-                    last_name : last_name,
-                    birth_date : birth_date,
-                    profile_picture : url,
-                    userid : id
                 }
             })
             const result = {
