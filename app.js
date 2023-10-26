@@ -11,6 +11,7 @@ app.use("/api/v1",router)
 
 
 app.use((err,req,res,next) => {
+    console.log(err);
     if (err.cause === 400) {
         return res.status(400).json({
             status : "error",

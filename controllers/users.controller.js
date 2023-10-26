@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt")
 const{ACCES_TOKEN_SECRET} = process.env
 const imagekit = require("../libs/imagekit")
 const path = require("path")
+const { create } = require("domain")
 
 module.exports = {
     register : async (req,res,next) => {
@@ -12,7 +13,7 @@ module.exports = {
         
             const email = req.body.email
             const password = req.body.password
-            if (!(email) || !(password)) throw new Error("password and email are required fields",{cause : 400}) 
+            if (!email || !password) throw new Error("password and email are required fields",{cause : 400}) 
 
             const encryptedPassword = await bcrypt.hash(password, 10);
         
@@ -23,14 +24,23 @@ module.exports = {
                 }
             })
             if (checkEmail.length > 0) throw new Error("email used by other user!",{cause : 400}) 
-        
             const newUser = await prisma.user.create({
                 data : {
                     email : email,
                     password : encryptedPassword,
+                    userProfile : {
+                        create : {
+                            first_name : '',
+                            last_name : '',
+                            birth_date :new Date,
+                            profile_picture:"https://ik.imagekit.io/rianrafli/blank-profile-picture-973460_1280.webp?updatedAt=1698310046352"
+                        }
+                    }
                 } 
             })
-        
+
+            
+            delete newUser.password
           
             const result = {
                 status : 'success',

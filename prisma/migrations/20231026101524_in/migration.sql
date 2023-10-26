@@ -2,7 +2,7 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "name" TEXT,
+    "password" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -10,10 +10,10 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "UserProfile" (
     "id" SERIAL NOT NULL,
-    "first_name" TEXT NOT NULL,
-    "last_name" TEXT NOT NULL,
-    "birth_date" TIMESTAMP(3) NOT NULL,
-    "profile_picture" TEXT NOT NULL,
+    "first_name" TEXT NOT NULL DEFAULT ' ',
+    "last_name" TEXT NOT NULL DEFAULT ' ',
+    "birth_date" TIMESTAMP(3),
+    "profile_picture" TEXT NOT NULL DEFAULT 'https://ik.imagekit.io/rianrafli/blank-profile-picture-973460_1280.webp?updatedAt=1698310046352',
     "userid" INTEGER NOT NULL,
 
     CONSTRAINT "UserProfile_pkey" PRIMARY KEY ("id")
